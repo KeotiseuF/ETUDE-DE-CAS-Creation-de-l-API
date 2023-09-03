@@ -22,7 +22,7 @@ class ArticlesController {
         if(user.info.role === "admin") {
             const data = req.body;
             const articleModified = await articlesService.update(id, data);
-            res.json(articleModified);
+            res.status(200).json(articleModified);
         } else {
             throw new UnauthorizedError();
         }      
@@ -34,7 +34,7 @@ class ArticlesController {
     try {
         const id = req.params.id;
         const user = await req.user;
-
+        
         if(user.info.role === "admin") {
             await articlesService.delete(id);
             req.io.emit("article:delete", { id });
